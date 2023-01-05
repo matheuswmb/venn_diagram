@@ -20,8 +20,14 @@ looker.plugins.visualizations.add({
     return svg.node();
   },
   updateAsync: function(data, element, config, queryResponse, details, done) {
+    // Convert the data to the expected format for Venn.js
+    var sets = [];
+    for (var key in data) {
+      sets.push({sets: [key], size: data[key]});
+    }
+
     // Update the data for the Venn diagram
-    venn.datum(data).call(venn);
+    venn.datum(sets).call(venn);
     done();
   }
 });
